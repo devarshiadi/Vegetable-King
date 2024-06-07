@@ -1,8 +1,9 @@
-//Config
+// Load environment variables
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "backend/.env" });
 }
 
+// Import required modules
 const cloudinary = require("cloudinary");
 const expressFileUpload = require("express-fileupload");
 const express = require("express");
@@ -15,33 +16,37 @@ const userRoutes = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
 const categoryRoute = require("./routes/categoryRoute");
 
-//Body Parser
+// Set up middlewares
 app.use(bodyParser.urlencoded({ limit: "200mb", extended: true }));
-
-//Cookies Parser
 app.use(cookieParser());
-
-//Database Connect
-connectDB();
-//JSON
 app.use(express.json());
-
-//Use Express File Upload
 app.use(expressFileUpload());
 
-//Config Cloudniary
+// Set up Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET_KEY,
 });
 
-app.listen(process.env.PORT, "localHost", () => {
-  console.log(`Server Running At http://localhost:${process.env.PORT}`);
-});
+// Connect to the database
+connectDB();
 
-//Load Route
+// Set up routes
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoute);
 app.use("/api/category", categoryRoute);
 
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, "./build21")));
+
+// Catch-all route for frontend
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./build21/index.html"));
+});
+
+// Start the server
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server Running At http://localhost:${port}`);
+});
