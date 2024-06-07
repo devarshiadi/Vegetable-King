@@ -38,12 +38,12 @@ app.use("/api/product", productRoute);
 app.use("/api/category", categoryRoute);
 
 // // Serve frontend static files
-// app.use(express.static(path.join(__dirname, "./build21")));
+app.use(express.static(path.join(__dirname, "./build21")));
 
 // // Catch-all route for frontend
-// app.get("/*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "./build21/index.html"));
-// });
+app.get("/*", (req, res) => {
+   res.sendFile(path.resolve(__dirname, "./build21/index.html"));
+ });
 
 // Start the server
 const port = process.env.PORT || 4000;
