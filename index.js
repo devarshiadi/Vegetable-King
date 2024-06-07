@@ -50,5 +50,5 @@ app.use(express.static(path.join(__dirname, "../backend/build")));
 
 //Access Front End All URL
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./build/index.html"));
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
 });
