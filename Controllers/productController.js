@@ -6,7 +6,7 @@ const { filterData } = require("../utils/filterQuery");
 //Add Product
 const addProduct = async (req, res) => {
   try {
-    const { name, rate, stocks, category, kilogramOption, image } = req.body;
+    const { name ,unit, rate, stocks, category, kilogramOption, image } = req.body;
     if (kilogramOption.length == 1) {
       sendError(res, 400, ["Weight: Required..!!"]);
     } else {
@@ -21,6 +21,7 @@ const addProduct = async (req, res) => {
 
       const newProduct = await productModel.create({
         name,
+        unit,
         rate,
         stocks,
         category,
@@ -80,7 +81,7 @@ const deleteProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { productId } = req.params;
-    const { name, rate, kilogramOption, category, stocks, image } = req.body;
+    const { name,unit, rate, kilogramOption, category, stocks, image } = req.body;
     if (productId) {
       const isProductExit = await productModel.findById(productId);
       if (image !== "") {
@@ -90,6 +91,7 @@ const updateProduct = async (req, res) => {
         isProductExit.url = result.url;
         isProductExit.public_id = result.public_id;
         isProductExit.name = name;
+        isProductExit.unit = unit;
         isProductExit.rate = rate;
         isProductExit.category = category;
         isProductExit.stocks = stocks;
@@ -102,6 +104,7 @@ const updateProduct = async (req, res) => {
         });
       } else {
         isProductExit.name = name;
+        isProductExit.unit = unit;
         isProductExit.rate = rate;
         isProductExit.category = category;
         isProductExit.stocks = stocks;
