@@ -18,13 +18,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   category: {
     type: mongoose.Types.ObjectId,
     ref: "Category",
     required: [true, "Enter Category Name"],
   },
-
   stocks: {
     type: Number,
     required: [true, "Stock: Required..!!"],
@@ -38,6 +36,10 @@ const productSchema = new mongoose.Schema({
       default: 0.5,
     },
   ],
+  unit: {
+    type: String,
+    required: true,
+  },
   numOfReviews: {
     type: Number,
     trim: true,
